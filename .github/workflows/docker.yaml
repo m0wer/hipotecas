@@ -2,7 +2,7 @@ name: image build
 on:
   push:
     branches:
-      - main
+      - master
 
 env:
   REGISTRY: ghcr.io
