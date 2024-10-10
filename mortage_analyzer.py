@@ -41,7 +41,8 @@ def perform_ocr(file_path: Path) -> str:
     try:
         # Try OCRmyPDF first
         subprocess.run(
-            ["ocrmypdf", "-l", "spa", str(file_path), str(file_path)], check=True
+            ["ocrmypdf", "--force-ocr", "-l", "spa", str(file_path), str(file_path)],
+            check=True,
         )
     except subprocess.CalledProcessError as e:
         st.warning(
@@ -122,7 +123,7 @@ def analyze_contract(text: str) -> str:
         model="claude-3-sonnet-20240229",
     )
 
-    return message.content
+    return message.content[0].text
 
 
 @st.cache_data
@@ -166,7 +167,7 @@ def main():
             analysis_result = get_or_analyze_contract(file_content, cache)
 
         st.subheader("Resultados del Análisis")
-        st.write(analysis_result.text)
+        st.write(analysis_result)
 
 
 if __name__ == "__main__":
